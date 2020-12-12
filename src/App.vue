@@ -9,6 +9,25 @@
         @close="handleClose"
         :collapse="isCollapse"
       >
+        <el-row justify="center" type="flex" aligin="middle">
+          <el-col> <div style="height:20px"></div> </el-col>
+          <el-col>
+            <el-row justify="center" type="flex" aligin="middle">
+              <el-avatar
+                :size="!isCollapse ? 80 : 50"
+                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+              ></el-avatar>
+            </el-row>
+          </el-col>
+          <el-col v-if="!isCollapse">
+            <el-row justify="center" type="flex" aligin="middle">
+              <div style="margin-top: 10px">
+                <router-link style="color: #409eff" to="/login">请登录</router-link>
+              </div>
+            </el-row>
+          </el-col>
+        </el-row>
+        <div class="split"></div>
         <el-menu-item>
           <i @click="collapseStatus" class="el-icon-menu"></i>
         </el-menu-item>
@@ -103,7 +122,6 @@ body,
   /* text-align: center; */
   /* line-height: 60px; */
 }
-
 .el-aside {
   /* background-color: #d3dce6; */
   color: #333;
@@ -134,5 +152,8 @@ a {
 }
 .router-link-active {
   color: #9cf;
+}
+.split {
+  height: 20px;
 }
 </style>
