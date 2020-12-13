@@ -3,10 +3,13 @@ module.exports = {
     devServer: {
         hot: true,
         port,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
         proxy: {
             "/api": {
-                target: "http://127.0.0.1:3003",
-                changeOrigin: true, // 是否改变域名
+                target: `http://localhost:${port}`,
+                changeOrigin: true,
                 ws: true,
                 pathRewrite: {
                     "^/api": ""
