@@ -10,7 +10,7 @@
         :collapse="isCollapse"
       >
         <el-row justify="center" type="flex" aligin="middle">
-          <el-col> <div style="height:20px"></div> </el-col>
+          <el-col> <div style="height: 20px"></div> </el-col>
           <el-col>
             <el-row justify="center" type="flex" aligin="middle">
               <el-avatar
@@ -54,7 +54,7 @@
     <el-container>
       <el-main v-loading="loading" element-loading-text="加载中...">
         <!-- <router-view :key="$route.path" /> -->
-        <div id="vue"></div>
+        <div id="container"></div>
       </el-main>
       <!-- <el-footer>Footer</el-footer> -->
     </el-container>
@@ -62,21 +62,16 @@
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
-
-// export default {
-//   name: "App",
-//   components: {
-//     HelloWorld,
-//   },
-// };
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       isCollapse: false,
+      loginPage: window.location.pathname.startsWith("/login"),
     };
   },
   computed: {
+    ...mapState(["loading"]),
     activeMenu() {
       return this.$route.path.split("/").slice(0, 3).join("/");
     },
@@ -87,6 +82,16 @@ export default {
       return this.isCollapse ? "auto" : "300px";
     },
   },
+  watch: {
+    $route: function (to, from) {
+      if (to.path === "/login") {
+        // this.$store.commit("setLoginPage", true);
+        // this.switchLoginPage(true);
+      } else if (from.path === "/login" && to.path !== "/login") {
+        // this.switchLoginPage(false);
+      }
+    },
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(this);
@@ -94,6 +99,9 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    switchLoginPage(value) {
+      this.loginPage = value;
     },
     collapseStatus() {
       this.isCollapse = !this.isCollapse;
@@ -114,10 +122,13 @@ body,
   margin: 0px;
   padding: 0px;
 }
+#container {
+  height: 100%;
+}
 
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
+  /* background-color: #b3c0d1; */
   color: #333;
   /* text-align: center; */
   /* line-height: 60px; */
@@ -126,6 +137,9 @@ body,
   /* background-color: #d3dce6; */
   color: #333;
   /* text-align: center; */
+}
+.el-menu-vertical {
+  height: 100%;
 }
 
 .el-main {
