@@ -34,20 +34,20 @@
         <el-submenu index="operator">
           <template v-slot:title>
             <i class="el-icon-news"></i>
-            <span>导航一</span>
+            <span>操盘</span>
           </template>
 
-          <el-menu-item index="/operator/virtual"> virtual </el-menu-item>
+          <el-menu-item index="/operator/virtual"> 模拟 </el-menu-item>
 
-          <el-menu-item index="/operator/huobi"> huobi </el-menu-item>
+          <el-menu-item index="/operator/huobi"> 火币 </el-menu-item>
         </el-submenu>
         <el-menu-item index="2" disabled>
           <i class="el-icon-document"></i>
-          <span>导航二</span>
+          <span>辅助</span>
         </el-menu-item>
-        <el-menu-item index="3">
+        <el-menu-item index="3" disabled>
           <i class="el-icon-setting"></i>
-          <span>导航三</span>
+          <span>设置</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
