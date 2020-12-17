@@ -75,6 +75,16 @@ registerMicroApps([
 if (window.location.href.indexOf('/login') === -1) {
     store.dispatch('fetchUserInfo')
 }
+const redirectOperator = () => {
+    if (window.location.pathname === '/') {
+        history.pushState({}, '/operator', '/operator')
+    }
+}
+redirectOperator()
+window.addEventListener('popstate', function (e) {
+    redirectOperator()
+})
+
 
 render({ loading: true })
 store.subscribe((mutation, state) => {

@@ -22,11 +22,7 @@
           <el-col v-if="!isCollapse">
             <el-row justify="center" type="flex" aligin="middle">
               <div style="margin-top: 10px">
-                <span
-                  style="color: #409eff; cursor: pointer"
-                  @click="linkClick('login', '/login')"
-                  >请登录</span
-                >
+                <span style="color: #409eff; cursor: pointer" @click="login">请登录</span>
               </div>
             </el-row>
           </el-col>
@@ -100,12 +96,14 @@ export default {
     },
   },
   methods: {
+    login() {
+      history.pushState({}, "/login", "/login?redirect=" + window.location.href);
+    },
     linkClick(title, url) {
       history.pushState({}, title, url);
     },
     handleOpen(key, keyPath) {
       console.log(this);
-      console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);

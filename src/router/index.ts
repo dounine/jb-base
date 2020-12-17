@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
   //     }
   //   ]
   // },
-  // { path: '', redirect: "/operator/virtual" }
+  { path: '', redirect: "/operator" }
 ]
 
 const router = createRouter({

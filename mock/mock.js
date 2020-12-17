@@ -4,14 +4,14 @@ const Mock = (app) => {
     app.get('/api/user/info', function (req, res) {
         res.json({
             status: "ok",
-            // data: {
-            //     name: '13535032936',
-            //     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-            //     email: 'antdesign@alipay.com',
-            //     access: 'admin',
-            //     phone: '13535032936',
-            //     status: 'normal'
-            // }
+            data: {
+                name: '13535032936',
+                avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+                email: 'antdesign@alipay.com',
+                access: 'admin',
+                phone: '13535032936',
+                status: 'normal'
+            }
         })
     })
     // app.get('/api/user/login', function (req, res) {
