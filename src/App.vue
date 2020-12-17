@@ -22,7 +22,11 @@
           <el-col v-if="!isCollapse">
             <el-row justify="center" type="flex" aligin="middle">
               <div style="margin-top: 10px">
-                <router-link style="color: #409eff" to="/login">请登录</router-link>
+                <span
+                  style="color: #409eff; cursor: pointer"
+                  @click="linkClick('login', '/login')"
+                  >请登录</span
+                >
               </div>
             </el-row>
           </el-col>
@@ -37,9 +41,19 @@
             <span>操盘</span>
           </template>
 
-          <el-menu-item index="/operator/virtual"> 模拟 </el-menu-item>
+          <el-menu-item
+            @click="linkClick('virtual', '/operator/virtual')"
+            index="/operator/virtual"
+          >
+            模拟
+          </el-menu-item>
 
-          <el-menu-item index="/operator/huobi"> 火币 </el-menu-item>
+          <el-menu-item
+            @click="linkClick('huobi', '/operator/huobi')"
+            index="/operator/huobi"
+          >
+            火币
+          </el-menu-item>
         </el-submenu>
         <el-menu-item index="2" disabled>
           <i class="el-icon-document"></i>
@@ -54,7 +68,7 @@
     <el-container>
       <el-main v-loading="loading" element-loading-text="加载中...">
         <!-- <router-view :key="$route.path" /> -->
-        <div id="container"></div>
+        <div id="container" v-show="!loading"></div>
       </el-main>
       <!-- <el-footer>Footer</el-footer> -->
     </el-container>
@@ -64,6 +78,15 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  props: {
+    loading: {
+      type: Boolean,
+      default: true,
+    },
+    createTime: {
+      type: Number,
+    },
+  },
   data() {
     return {
       isCollapse: false,
@@ -71,28 +94,18 @@ export default {
     };
   },
   computed: {
-    ...mapState(["loading"]),
+    // ...mapState(["loading"]),
     activeMenu() {
-      return this.$route.path.split("/").slice(0, 3).join("/");
-    },
-    loading() {
-      return this.$store.state.loading;
+      return ""; //this.$route.path.split("/").slice(0, 3).join("/");
     },
     sildeWidth() {
       return this.isCollapse ? "auto" : "300px";
     },
   },
-  watch: {
-    $route: function (to, from) {
-      if (to.path === "/login") {
-        // this.$store.commit("setLoginPage", true);
-        // this.switchLoginPage(true);
-      } else if (from.path === "/login" && to.path !== "/login") {
-        // this.switchLoginPage(false);
-      }
-    },
-  },
   methods: {
+    linkClick(title, url) {
+      history.pushState({}, title, url);
+    },
     handleOpen(key, keyPath) {
       console.log(this);
       console.log(key, keyPath);

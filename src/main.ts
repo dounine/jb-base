@@ -1,20 +1,38 @@
-import { createApp } from 'vue'
+import { createApp, h } from 'vue'
 import App from './App.vue'
-import router from './router'
+// import router from './router'
 import store from './store'
 import installElementPlus from './plugins/element.js'
-import axios from './plugins/axios'
 import { registerMicroApps, prefetchApps, start } from 'qiankun'
-
 
 let app: any = null
 const render = ({ loading }) => {
     if (!app) {
-        app = createApp(App).use(store).use(router).use(axios)
-        installElementPlus(app)
-        app.mount('#rootApp')
+        const tmpApp = createApp({
+            data() {
+                return {
+                    loading,
+                    createTime: new Date().getTime()
+                }
+            },
+            render() {
+                return h(App, {
+                    loading: this.loading,
+                    createTime: new Date().getTime()
+                })
+            }
+        }).use(store)
+        installElementPlus(tmpApp)
+        app = tmpApp.mount('#rootApp')
     } else {
-        store.commit('setLoading', loading);
+        if (!loading) {
+            setTimeout(() => {
+                app.loading = loading
+            }, 600 - (new Date().getTime() - app.createTime))
+        } else if (app.loading !== loading) {
+            app.loading = loading
+            app.createTime = new Date().getTime()
+        }
     }
 }
 const loader = loading => render({ loading });
@@ -40,14 +58,16 @@ registerMicroApps([
         activeRule: '/operator'
     }
 ], {
-    beforeMount: app => {
-        console.log('beforeMount');
-        return Promise.resolve()
-    },
-    afterMount: app => {
-        console.log('afterMount');
-        return Promise.resolve()
-    }
+    // beforeMount: app => {
+    //     console.log('beforeMount');
+    //     store.commit('setLoading', true);
+    //     return Promise.resolve()
+    // },
+    // afterMount: app => {
+    //     console.log('afterMount');
+    //     store.commit('setLoading', false);
+    //     return Promise.resolve()
+    // }
 })
 // prefetchApps([{
 //     name: 'jb-login',
