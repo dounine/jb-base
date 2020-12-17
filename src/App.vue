@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   props: {
     loading: {
@@ -90,13 +89,11 @@ export default {
   data() {
     return {
       isCollapse: false,
-      loginPage: window.location.pathname.startsWith("/login"),
     };
   },
   computed: {
-    // ...mapState(["loading"]),
     activeMenu() {
-      return ""; //this.$route.path.split("/").slice(0, 3).join("/");
+      return window.location.pathname.split("/").slice(0, 3).join("/");
     },
     sildeWidth() {
       return this.isCollapse ? "auto" : "300px";
@@ -112,9 +109,6 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
-    },
-    switchLoginPage(value) {
-      this.loginPage = value;
     },
     collapseStatus() {
       this.isCollapse = !this.isCollapse;
