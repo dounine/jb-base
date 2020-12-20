@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store'
 import installElementPlus from './plugins/element.js'
 import { registerMicroApps, prefetchApps, start } from 'qiankun'
+import url from 'url'
 
 let app: any = null
 const render = ({ loading }) => {
@@ -11,7 +12,7 @@ const render = ({ loading }) => {
             data() {
                 return {
                     loading,
-                    createTime: new Date().getTime()
+                    createTime: new Date().getTime(),
                 }
             },
             render() {
@@ -37,14 +38,14 @@ const render = ({ loading }) => {
 const loader = loading => render({ loading });
 registerMicroApps([
     {
-        name: 'jb-login',
+        name: 'jb-user',
         entry: 'http://localhost:8083',
         container: '#container',
         loader,
         props: {
             theme: store.state.theme,
         },
-        activeRule: '/login'
+        activeRule: '/user'
     },
     {
         name: 'jb-operator',
@@ -68,12 +69,12 @@ registerMicroApps([
     //     return Promise.resolve()
     // }
 })
-// prefetchApps([{
-//     name: 'jb-login',
-//     entry: 'http://localhost:8083'
-// }])
 if (window.location.href.indexOf('/login') === -1) {
-    store.dispatch('fetchUserInfo')
+    const query = url.parse(window.location.href, true).query
+    if (query.token) {
+        localStorage.setItem('token', query.token)
+    }
+    store.dispatch('fetchUserInfo', localStorage.getItem('token'))
 }
 const redirectOperator = () => {
     if (window.location.pathname === '/') {
@@ -91,12 +92,17 @@ store.subscribe((mutation, state) => {
     if (mutation.type === 'setLogin') {
         if (state.login) {
             console.log('已登录');
+            const query = url.parse(window.location.href, true)
+            if (query.query.token) {
+                history.pushState({}, query.pathname, query.pathname);
+            }
         } else {
             console.log('token失效');
-            //加载登录子应用
-            // router.push(`/login?redirect=${encodeURI(window.location.href)}`)
+            const query = url.parse(window.location.href, true)
+            if (query.query.token) {
+                history.pushState({}, query.pathname, query.pathname);
+            }
         }
-
     }
 })
 start()

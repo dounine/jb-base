@@ -8,7 +8,7 @@ export default createStore({
     loading: true,
     login: false,
     loginPage: window.location.pathname.startsWith("/login"),
-    token: localStorage.getItem('token') || "",
+    token: localStorage.getItem('token'),
     userInfo: {}
   },
   mutations: {//sync
@@ -26,8 +26,8 @@ export default createStore({
     }
   },
   actions: {//async
-    fetchUserInfo(store) {
-      UserApi.userInfo(store.state.token)
+    fetchUserInfo(store, token) {
+      UserApi.userInfo(store.state.token || token || "")
         .then(response => {
           if (response.data.data?.phone) {
             store.commit('setLogin', true)

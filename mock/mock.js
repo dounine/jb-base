@@ -5,11 +5,12 @@ const Mock = (app) => {
         res.json({
             status: "ok",
             data: {
-                name: '13535032936',
+                id: 10000,
+                name: '13500000000',
                 avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
                 email: 'antdesign@alipay.com',
                 access: 'admin',
-                phone: '13535032936',
+                phone: '13500000000',
                 status: 'normal'
             }
         })

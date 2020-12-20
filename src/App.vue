@@ -15,14 +15,23 @@
             <el-row justify="center" type="flex" aligin="middle">
               <el-avatar
                 :size="!isCollapse ? 80 : 50"
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                :src="
+                  userInfo.avatar
+                    ? userInfo.avatar
+                    : 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'
+                "
               ></el-avatar>
             </el-row>
           </el-col>
           <el-col v-if="!isCollapse">
-            <el-row justify="center" type="flex" aligin="middle">
+            <el-row v-if="!userInfo.id" justify="center" type="flex" aligin="middle">
               <div style="margin-top: 10px">
                 <span style="color: #409eff; cursor: pointer" @click="login">请登录</span>
+              </div>
+            </el-row>
+            <el-row v-if="userInfo.id" justify="center" type="flex" aligin="middle">
+              <div style="margin-top: 10px">
+                <span @click="login">{{ userInfo.id }}</span>
               </div>
             </el-row>
           </el-col>
@@ -72,6 +81,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     loading: {
@@ -88,6 +98,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["userInfo"]),
     activeMenu() {
       return window.location.pathname.split("/").slice(0, 3).join("/");
     },
