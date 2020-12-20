@@ -7,16 +7,12 @@ export default createStore({
     theme: variables.theme,
     loading: true,
     login: false,
-    loginPage: window.location.pathname.startsWith("/login"),
     token: localStorage.getItem('token'),
     userInfo: {}
   },
   mutations: {//sync
     setLogin(state, value) {
       state.login = value
-    },
-    setLoginPage(state, value) {
-      state.loginPage = value
     },
     setLoading(state, value) {
       state.loading = value
