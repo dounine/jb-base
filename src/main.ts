@@ -58,23 +58,23 @@ registerMicroApps([
         activeRule: '/operator'
     }
 ], {
-    // beforeMount: app => {
-    //     console.log('beforeMount');
-    //     store.commit('setLoading', true);
-    //     return Promise.resolve()
-    // },
-    // afterMount: app => {
-    //     console.log('afterMount');
-    //     store.commit('setLoading', false);
-    //     return Promise.resolve()
-    // }
+    beforeMount: app => {
+        console.log('beforeMount');
+        return Promise.resolve()
+    },
+    afterMount: app => {
+        console.log('afterMount');
+        return Promise.resolve()
+    }
 })
 if (window.location.href.indexOf('/login') === -1) {
     const query = url.parse(window.location.href, true).query
     if (query.token) {
         localStorage.setItem('token', query.token)
+    } else if (localStorage.getItem('token')) {
+        console.log('检查token有效');
+        store.dispatch('fetchUserInfo', localStorage.getItem('token'))
     }
-    store.dispatch('fetchUserInfo', localStorage.getItem('token'))
 }
 const redirectOperator = () => {
     if (window.location.pathname === '/') {

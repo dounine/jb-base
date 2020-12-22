@@ -24,12 +24,27 @@
             </el-row>
           </el-col>
           <el-col v-if="!isCollapse">
-            <el-row v-if="!userInfo.id" justify="center" type="flex" aligin="middle">
+            <el-row
+              v-if="!userInfo.id && !userInfoQuery"
+              justify="center"
+              type="flex"
+              aligin="middle"
+            >
               <div style="margin-top: 10px">
                 <span style="color: #409eff; cursor: pointer" @click="login">请登录</span>
               </div>
             </el-row>
-            <el-row v-if="userInfo.id" justify="center" type="flex" aligin="middle">
+            <el-row v-if="userInfoQuery" justify="center" type="flex" aligin="middle">
+              <div style="margin-top: 10px">
+                <i class="el-icon-loading"></i>
+              </div>
+            </el-row>
+            <el-row
+              v-if="userInfo.id && !userInfoQuery"
+              justify="center"
+              type="flex"
+              aligin="middle"
+            >
               <div style="margin-top: 10px">
                 <span @click="login">{{ userInfo.id }}</span>
               </div>
@@ -98,7 +113,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["userInfo", "userInfoQuery"]),
     activeMenu() {
       return window.location.pathname.split("/").slice(0, 3).join("/");
     },
@@ -108,7 +123,15 @@ export default {
   },
   methods: {
     login() {
-      history.pushState({}, "/login", "/login?redirect=" + window.location.href);
+      if (window.location.href.indexOf("redirect") !== -1) {
+        history.pushState({}, window.location.href, window.location.href);
+      } else {
+        history.pushState(
+          {},
+          "/user/login",
+          "/user/login?redirect=" + window.location.href
+        );
+      }
     },
     linkClick(title, url) {
       history.pushState({}, title, url);

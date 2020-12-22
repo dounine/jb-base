@@ -8,7 +8,8 @@ export default createStore({
     loading: true,
     login: false,
     token: localStorage.getItem('token'),
-    userInfo: {}
+    userInfo: {},
+    userInfoQuery: false,
   },
   mutations: {//sync
     setLogin(state, value) {
@@ -19,12 +20,17 @@ export default createStore({
     },
     setUserInfo(state, value) {
       state.userInfo = value
+    },
+    setUserInfoQuery(state, value) {
+      state.userInfoQuery = value
     }
   },
   actions: {//async
     fetchUserInfo(store, token) {
+      store.commit('setUserInfoQuery', true)
       UserApi.userInfo(store.state.token || token || "")
         .then(response => {
+          store.commit('setUserInfoQuery', false)
           if (response.data.data?.phone) {
             store.commit('setLogin', true)
             store.commit('setUserInfo', response.data.data)
