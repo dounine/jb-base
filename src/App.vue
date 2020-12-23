@@ -53,7 +53,10 @@
         </el-row>
         <div class="split"></div>
         <el-menu-item>
-          <i @click="collapseStatus" class="el-icon-menu"></i>
+          <i
+            @click="collapseStatus"
+            :class="!isCollapse ? 'el-icon-arrow-left' : 'el-icon-arrow-right'"
+          ></i>
         </el-menu-item>
         <el-submenu index="operator">
           <template v-slot:title>
